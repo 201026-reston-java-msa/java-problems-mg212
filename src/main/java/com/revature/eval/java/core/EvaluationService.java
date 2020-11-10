@@ -14,8 +14,12 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
-		
-		return "";
+		char[] rev = new char[string.length()];
+		for (int i = 0; i < rev.length; i++) {			
+			rev[i] = string.charAt(rev.length - i - 1);
+		}
+//		System.out.println(rev);
+		return new String(rev);
 	}
 
 	/**
@@ -27,9 +31,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// make a string array by splitting phrase at ' ' and '-'
+		String[] result = phrase.split("[ -]");
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < result.length; i++) {
+			// grab only the first letters of the strings.
+			sb.append(result[i].charAt(0));
+		}
+		// set the String
+		String finalResult = sb.toString();
+		// return the string in upper case.
+		return finalResult.toUpperCase();
 	}
+
 
 	/**
 	 * 3. Determine if a triangle is equilateral, isosceles, or scalene. An
