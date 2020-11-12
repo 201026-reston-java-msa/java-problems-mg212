@@ -1,8 +1,13 @@
 package com.revature.eval.java.core;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Test;
 
 public class EvaluationService {
 
@@ -16,7 +21,7 @@ public class EvaluationService {
 	 */
 	public String reverse(String string) {
 		char[] rev = new char[string.length()];
-		for (int i = 0; i < rev.length; i++) {			
+		for (int i = 0; i < rev.length; i++) {
 			rev[i] = string.charAt(rev.length - i - 1);
 		}
 //		System.out.println(rev);
@@ -44,7 +49,6 @@ public class EvaluationService {
 		// return the string in upper case.
 		return finalResult.toUpperCase();
 	}
-
 
 	/**
 	 * 3. Determine if a triangle is equilateral, isosceles, or scalene. An
@@ -96,17 +100,22 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			if (sideOne == sideTwo && sideTwo == sideThree)
+				return true;
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			if (!isEquilateral())
+				if ((sideOne == sideTwo && sideTwo == sideThree) || (sideOne == sideTwo && sideOne == sideThree))
+					return true;
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			if ((sideOne != sideThree && sideTwo != sideThree) && (sideOne != sideTwo && sideTwo != sideThree)
+					&& (sideOne != sideTwo && sideOne != sideThree))
+				return true;
 			return false;
 		}
 
@@ -115,9 +124,10 @@ public class EvaluationService {
 	/**
 	 * 4. Given a word, compute the scrabble score for that word.
 	 * 
-	 * --Letter Values-- Letter Value A, E, I, O, U, L, N, R, S, T = 1; D, G = 2; B,
-	 * C, M, P = 3; F, H, V, W, Y = 4; K = 5; J, X = 8; Q, Z = 10; Examples
-	 * "cabbage" should be scored as worth 14 points:
+	 * --Letter Values-- Letter Value A, E, I, O, U, L, N, R, S, T = 1; D, G = 2;
+	 * B,C, M, P = 3; F, H, V, W, Y = 4; K = 5; J, X = 8; Q, Z = 10;
+	 * 
+	 * Examples "cabbage" should be scored as worth 14 points:
 	 * 
 	 * 3 points for C, 1 point for A, twice 3 points for B, twice 2 points for G, 1
 	 * point for E And to total:
@@ -127,9 +137,36 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+
+//	public static void main(String[] args) {
+//		int boo = getScrabbleScore("f");
+//
+//	}
+
+	public static int getScrabbleScore(String string) {
+		char value;
+		int sum = 0;
+
+		for (int i = 0; i < string.length(); i++) {
+			value = string.charAt(i);
+			if (value == 'd' || value == 'g') {
+				sum += 2;
+			} else if (value == 'b' || value == 'c' || value == 'm' || value == 'p') {
+				sum += 3;
+			} else if (value == 'f' || value == 'h' || value == 'v' || value == 'w' || value == 'y') {
+				sum += 4;
+			} else if (value == 'k') {
+				sum += 5;
+			} else if (value == 'j' || value == 'x') {
+				sum += 8;
+			} else if (value == 'q' || value == 'z') {
+				sum += 10;
+			} else
+				sum += 1;
+
+		}
+//		System.out.println(sum);
+		return sum;
 	}
 
 	/**
@@ -163,10 +200,47 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public static String cleanPhoneNumber(String string) {
+		char c;
+		String number = "";
+//		int length = string.length();
+
+		for (int i = 0; i < string.length(); i++) {
+			c = string.charAt(i);
+//			System.out.println(string.length());
+			if (c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9'
+					|| c == '0')
+				number += c;
+			else if (c == ' ' || c == '.' || c == '-' || c == '(' || c == ')')
+				number += "";
+			else
+				throw new IllegalArgumentException();
+		}
+		if (number.length() != 10)
+			throw new IllegalArgumentException();
+		return number;
 	}
+
+//	public static void main(String[] args) {
+//		String boo = cleanPhoneNumber("(223) 456-7890");
+//		System.out.println(boo);
+//	}
+
+//		final String expectedNumber = "2234567890";
+//		final String actualNumber = evaluationService.cleanPhoneNumber("(223) 456-7890");
+//
+//		final String expectedNumber = "2234567890";
+//		final String actualNumber = evaluationService.cleanPhoneNumber("223.456.7890");
+//
+//		final String expectedNumber = "2234567890";
+//		final String actualNumber = evaluationService.cleanPhoneNumber("223 456   7890   ");
+//	
+//		expectedException.expect(IllegalArgumentException.class);
+//		evaluationService.cleanPhoneNumber("321234567890");
+//		expectedException.expect(IllegalArgumentException.class);
+//		evaluationService.cleanPhoneNumber("123-abc-7890");
+//		expectedException.expect(IllegalArgumentException.class);
+//		evaluationService.cleanPhoneNumber("123-@:!-7890");
 
 	/**
 	 * 6. Given a phrase, count the occurrences of each word in that phrase.
@@ -177,11 +251,28 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+
+	public static Map<String, Integer> wordCount(String string) {
+		HashMap<String, Integer> hm = new HashMap<>();
+		
+		String[] arr = string.split(" ");
+
+		for (String s : arr) {
+			if (hm.containsKey(s)) {
+				
+				hm.put(s, hm.get(s) + 1);
+			} else {
+				hm.put(s, 1);
+			}
+		}
+		
+		return hm;
 	}
 
+//	public static void main(String[] args) {
+//	Map<String, Integer> boo = wordCount("one fish two fish red fish blue fish");
+//	System.out.println(boo);
+}
 	/**
 	 * 7. Implement a binary search algorithm.
 	 * 
@@ -217,7 +308,7 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
-	static class BinarySearch<T> {
+	class BinarySearch<T> {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
@@ -239,6 +330,8 @@ public class EvaluationService {
 		}
 
 	}
+	
+	
 
 	/**
 	 * 8. Implement a program that translates from English to Pig Latin.
